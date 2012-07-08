@@ -1,0 +1,91 @@
+html, body {
+    height: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+body {
+    text-align: center;
+    font-family: sans-serif,serif;
+    background-image: url('/assets/image/bluebg1.jpg');
+}
+.content {
+    min-height: 100% !important;
+    height: auto !important;
+    height: 100%;
+    position: relative;
+    width: 900px;
+    font-size: 0.9em;
+    margin: 0 auto -26px;
+    text-align: left;
+    background-color: white;
+}
+.contentinner {
+    padding: 8px;
+}
+.transparent {
+    zoom: 1;
+    opacity: 0.95;
+    filter: alpha(opacity=95);
+}
+.nottransparent {
+    zoom: 1;
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+div#navigation {
+    background-color: black;
+    color: white;
+    height: 32px;
+    width: 100%;
+    border-top: 1px solid #FDF1E6;
+}
+
+div#navigation a {
+    text-decoration: none;
+    color: white;
+}
+
+div.navigation_content {
+    background-color: black;
+    color: white;
+    height: 30px;
+    width: 100%;
+    border-top: 1px solid #FDF1E6;
+}
+
+div.navigation_link {
+    display: inline;
+    float: left;
+    padding: 5px 15px 5px 15px;
+}
+
+div.navigation_link:hover {
+    background-color: grey;
+}
+
+table.contact td {
+    padding: 0px 4px 0px 4px;
+}
+
+table.contact a {
+    color: black;
+}
+
+div.copyright {
+    width:894px;
+    text-align:  center;
+    padding: 3px;
+    border-top: 1px solid #FDF1E6;
+}
+
+.footer, .footer_content {
+    height: 25px;
+}
+
+.footer_content {
+    position: relative;
+    width: 900px;
+    margin: 0 auto;
+    font-size: 12px;
+}

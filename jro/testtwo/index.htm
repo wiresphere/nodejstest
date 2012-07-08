@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+		<title>I would like to make an enquiry</title>
+		<link rel="stylesheet" type="text/css" href="/jro-enquiry.css" />
+<!--		<link rel="stylesheet" type="text/css" href="/jro-ui-lightness-jquery-ui-1.8.17.custom.css" />-->
+		<link rel="stylesheet" type="text/css" href="/jro-jquery-ui-1.8.21.custom.css" />
+
+		<!--<script type="text/javascript" src="/jro-jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="/jro-jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="/jro-jquery.validate.min.js"></script>
+		-->
+
+<!--		<script type="text/javascript" src="/jquery.validate.min.js"></script>-->
+		<script type="text/javascript" src="/jro-jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="/jro-jquery-ui-1.8.21.custom.min.js"></script>
+
+		<script type="text/javascript">
+			$().ready(function(){
+				function validateEmail(email) {
+					var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+					return re.test(email);
+				}
+
+				$('#departure').datepicker({
+					dateFormat: 'dd/mm/yy',
+					onSelect: function(dateText){
+						var dt = $(this).datepicker('getDate');
+						var maxDt = new Date(dt.getTime());
+						maxDt.setDate(maxDt.getDate() + 1);
+						$('#return').datepicker('option',{
+							minDate:dt
+						}).datepicker("setDate",maxDt);
+					}
+				}).datepicker('setDate',new Date());
+				$('#return').datepicker({
+					dateFormat: 'dd/mm/yy'
+				});
+
+				$("#autocomplete").autocomplete({
+					source: "/jro/search",
+					dataType:'json',
+					minLength: 2,
+					select: function(event, ui) {
+						if (ui.item) {
+							$("#autocomplete").val(ui.item.label);
+						}
+					}
+				});
+				$.validateForm = function(vform){
+					var failed = false;
+					$('.valerror').remove();
+					var firstname = $('#firstname').val();
+					if (firstname == ''){
+						$('#firstname').parent().append('<span class="valerror">* This is a required field</span>');
+						failed = true;
+					}
+					var lastname = $('#lastname').val();
+					if (lastname == ''){
+						$('#lastname').parent().append('<span class="valerror">* This is a required field</span>');
+						failed = true;
+					}
+					var email = $('#email').val();
+					if (email == ''){
+						$('#email').parent().append('<span class="valerror">* This is a required field</span>');
+						failed = true;
+					}else{
+						var validemail = validateEmail(email);
+						if (!validemail){
+							$('#email').parent().append('<span class="valerror">* Please enter a valid email address</span>');
+							failed = true;
+						}
+					}
+					var phone = $('#phone').val();
+					if (phone == ''){
+						$('#phone').parent().append('<span class="valerror">* This is a required field</span>');
+						failed = true;
+					}else{
+						if (phone.length > 10){
+							$('#phone').parent().append('<span class="valerror">* Phone can only be 10 digits long</span>');
+							failed = true;
+						}
+						if (isNaN(phone)){
+							$('#phone').parent().append('<span class="valerror">* Phone has to be a number</span>');
+							failed = true;
+						}
+					}
+					var departure = $('#departure').val();
+					if (departure == ''){
+						$('#departure').parent().append('<span class="valerror">* This is a required field</span>');
+						failed = true;
+					}
+					var _return = $('#return').val();
+					if (_return == ''){
+						$('#return').parent().append('<span class="valerror">* This is a required field</span>');
+						failed = true;
+					}
+
+					if (failed){
+						return !failed;
+					}else{
+						alert('Enquiry Successful!');
+						return false;
+					}
+
+					return !failed;
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<form id="testdeparture" method="post" action="" onSubmit="return $.validateForm($(this));">
+			<h2>Make an enquiry</h2>
+
+			<div style="float:left; margin-right:20px; width:400px;">
+			<h3>Row highlighting</h3>
+			<div class="contentA">
+				<div class="row">
+					<div class="left">First name *</div>
+
+					<div class="right"><input id="firstname" name="firstname" type="text" class="text" /></div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left">Last name *</div>
+					<div class="right"><input id="lastname" name="lastname" type="text" class="text" /></div>
+					<div class="clear"></div>
+				</div>
+
+				<div class="row">
+					<div class="left">Email *</div>
+					<div class="right"><input id="email" name="email" type="text" class="text" /></div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left">Phone *</div>
+					<div class="right"><input id="phone" name="phone" type="text" class="text" /></div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<hr />
+				<div class="contentA">
+				<div class="row">
+					<div class="left">Departure Date*</div>
+					<div class="right"><input name="departure" id="departure" type="text" class="text" /></div>
+
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left">Returning Date*</div>
+					<div class="right"><input name="return" id="return" type="text" class="text" /></div>
+					<div class="clear"></div>
+				</div>
+				<div class="row">
+					<div class="left">Destination</div>
+					<div class="right"><input name="destination" id="autocomplete" /></div>
+					<div class="clear"></div>
+				</div>
+
+			</div>
+			<hr />
+			<input name="Button1" type="submit" value="Do some action" />
+			</div>
+			<div style="float:left; margin-right:20px;">
+
+			</div>
+		</form>
+	</body>
+</html>
